@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Curso VUE</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="description" content="Demo project">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<style type="text/css"></style>
+</head>
+<body>
+	<!--https://www.youtube.com/watch?v=oXNtp4_VAfQ&list=PLcoYAcR89n-qq1vGRbaUiV6Q9puy0qigW&index=5-->
+	<div class="container">
+		<div class="app">
+			<div class="row">
+				<div class="col-sm-6">
+					<h2>{{titulo}}</h2>
+					<form>
+						<div class="form-group">
+							<label for="exampleFormControlInput1">Email address</label>
+							<input type="email" v-model="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+						</div>
+						<div class="form-group">
+							<label for="exampleFormControlSelect1">Example select</label>
+							<select class="form-control" v-model="select" id="exampleFormControlSelect1">
+						      <option>1</option>
+						      <option>2</option>
+						      <option>3</option>
+						      <option>4</option>
+						      <option>5</option>
+						    </select>
+						</div>
+						<div class="form-group">
+							<label for="exampleFormControlSelect2">Example multiple select</label>
+							<select multiple class="form-control" v-model="opcoes" id="exampleFormControlSelect2">
+						      <option>1</option>
+						      <option>2</option>
+						      <option>3</option>
+						      <option>4</option>
+						      <option>5</option>
+						    </select>
+						</div>
+						<div class="form-group">
+							<label for="exampleFormControlTextarea1">Example textarea</label>
+							<textarea v-model="descricao" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+						</div>
+					</form>
+				</div>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" name="nome" v-model="nome" /> 
+					Valor do input: {{nome}}
+					<hr>
+					email: {{email}}<br>
+					opções: {{opcoes}}<br>
+					select: {{select}}<br>
+					descricao: {{descricao}} 
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<script>
+		var app = new Vue({
+			el: '.app',
+			data: {
+				titulo: 'Vmodel',
+				nome: '',
+				email: '',
+				opcoes: [],
+				select:'',
+				descricao:''
+			}
+		})
+	</script>
+</body>
+
+</html>
