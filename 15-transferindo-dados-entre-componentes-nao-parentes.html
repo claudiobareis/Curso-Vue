@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Curso VUE</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="description" content="Demo project">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<style type="text/css"></style>
+</head>
+<body>
+	<!--https://www.youtube.com/watch?v=y1BxX8orGXw&index=14&list=PLcoYAcR89n-qq1vGRbaUiV6Q9puy0qigW-->
+	<div class="container">
+		<div id="app">
+			<div class="row">
+				<div class="col-sm-12">
+					<h1>{{ titulo }}</h1>
+				</div>
+			</div>
+			
+			<input-form></input-form>
+			<hr>
+			<my-list></my-list>
+		
+			
+			
+			
+		</div>
+	</div>
+	
+	<template id="form">
+		<div class="card">
+			<div class="card-block">
+				<div class="form-group">
+					<label>Título</label>
+					<input v-model="title" class="form-control" type="text" name=""/>
+				</div>
+				<button @click.stop.prevent="submit()"
+				        class="btn btn-primary">Enviar</button>
+			</div>
+		</div>
+		<hr>
+	</template>
+	
+	<template id="list">
+		<ul class="list-group">
+			<li class="list-group-item">opa</li>
+		</ul>
+	</template>
+	
+	<script>
+		Vue.component('input-form' ,{
+			template: '#form',
+			data(){
+				return{
+					title: '',
+				}	
+			},
+			methods:{
+				submit(){
+					eventBus.$emit('submit', this.title)
+					//console.log('opa');
+				}
+			}
+		});
+		
+		Vue.component('my-list' ,{
+			template: '#list',	
+			created(){
+				eventBus.$on('submit', function(titulo){
+					console.log(titulo);	
+				});
+			}
+		});
+	
+		var eventBus = new Vue();
+	
+		var app = new Vue({
+			el: '#app',
+			data: {
+				titulo: 'Vue.js enviando dados entre componentes não parentes',
+			}
+		})
+	</script>
+</body>
+
+</html>
