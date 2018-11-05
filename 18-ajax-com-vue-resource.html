@@ -9,12 +9,19 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
 	<style type="text/css"></style>
 </head>
 <body>
 	<a href="https://www.youtube.com/watch?v=oXNtp4_VAfQ&list=PLcoYAcR89n-qq1vGRbaUiV6Q9puy0qigW&index=5" target="_blank">Curso</a>
 		<div class="app">
 			<h2>{{titulo}}</h2>
+			<div v-if="response.status == 'error'" class="alert alert-danger">{{response.msg}}</div>
+			<div v-if="loader.users">Carregando usuários</div>
+			<ul>
+				<li v-for="user in users">{{user.name}}</li>
+			</ul>
+			
 			<button @click.stop.prevent="getUsers()" class="btn btn-success">enviar</button>
 		
 		
@@ -23,7 +30,21 @@
 			var mixin = {
 				methods:{
 					getUsers(){
-              			console.log('get users')
+						this.loader.users = true;
+						
+						var url = 'https://jsonplaceholder.typicode.com/users';
+              			//.get .post .delete
+              			this.$http.get(url)
+              			.then(function(response){
+              				this.users = response.body;
+              				//console.log(resonse.body);
+              			}, function(error){
+              				console.log(error);
+              				this.response.status = "error";
+              			})
+              			.finally(function() {
+              				this.loader.users = false;
+              			});
               		}
 				}
 			}
@@ -34,7 +55,15 @@
               mixins: [mixin],
               
               data: {
-                titulo: 'Hello Vue!'
+              	titulo: "Ajax",
+                users:[],
+                loader:{
+                	users: false,
+                },
+                response: {
+                	msg: "Erro ao conectar",
+                	status: ""
+                }
               },
               methods:{
               
