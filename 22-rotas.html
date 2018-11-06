@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div class="container">
+            <h1>{{titulo}}</h1>
+            <ul>
+                <li><router-link to="/transformers">Transformers</router-link></li>
+                <li><router-link to="/game-of-thrones">Game Of thrones</router-link></li>
+            </ul>
+            <router-view></router-view>
+        </div>
+    </div>
+
+    <template id="transformers">
+       <div>
+           <h4>Transformers</h4>
+            <ul>
+                <li>transformers 1</li>
+                <li>transformers 2</li>
+                <li>transformers 3</li>
+            </ul>
+       </div>
+    </template>
+    
+    <template id="game-of-thrones">
+        <div>
+            <h4>Game Of thrones</h4>
+            <ul>
+                <li>game-of-thrones 1</li>
+                <li>game-of-thrones 2</li>
+                <li>game-of-thrones 3</li>
+            </ul>
+        </div>
+    </template>
+
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.5"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <script>
+        var Transformers = Vue.component('transformers',{
+            template:'#transformers'
+        });
+    
+        var GameOfthrones= Vue.component('game-of-thrones',{
+            template:'#game-of-thrones'
+        });
+    
+        var router = new VueRouter({
+            routes : [
+                { path:'/transformers', component: Transformers },
+                { path:'/game-of-thrones', component: GameOfthrones },
+            ]
+    
+        });
+    
+        var app = new Vue({
+            el:"#app",
+            router,
+            data:{
+                titulo:"Rotas"
+            }
+        })
+    </script>
+</body>
+</html>
