@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div class="container">
+            <h1>{{titulo}}</h1>
+
+            <ul>
+                <li><router-link :to="{ name: 'transformers' }">Transformers</router-link></li>
+                <li><router-link :to="{ name: 'gameOfthrones' }">Game Of thrones</router-link></li>
+                <li><router-link to="/arrow">Arrow</router-link></li>
+            </ul>
+
+            <router-view></router-view>
+           
+        </div>
+
+    </div>
+
+    <template id="transformers">
+       <div>
+           <div class="row">
+               <div v-if="sidebar">
+                   <h5>Sidebar</h5>
+               </div>
+               <div class="col">
+                    <h4>Transformers</h4>
+                    <ul>
+                        <li v-for="item in transformers"><router-link :to="{ name : 'transformersContent', params: {name: item.slug } }">{{ item.name}}</router-link></li>
+                    </ul>
+               </div>
+               <div class="col">
+                   <router-view></router-view>
+               </div>
+           </div>
+       </div>
+    </template>
+    
+    <template id="game-of-thrones">
+        <div>
+            <h4>Game Of thrones</h4>
+        </div>
+    </template>
+
+    <template id="transformersContent">
+        <div>
+            <h3>Conteúdo Transformers</h3>
+            {{$route.params.name}}
+        </div>
+    </template>
+    
+    <template id="error404">
+        <div>
+            <h3>Página não encontrada</h3>
+            <p>Ooops! Página não encontrada</p>
+        </div>
+        
+    </template>
+
+
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.5"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <script>
+    
+        var Transformers = Vue.component('transformers',{
+            template:'#transformers',
+            props:{
+                sidebar: Boolean,
+            },
+            created(){
+              console.log(this.sidebar);  
+            },
+            data ()
+            {
+                return {
+                    transformers:
+                    [
+                        { name: 'Optmus Prime', slug: 'optmus-prime' },
+                        { name: 'Bumble Bee', slug: 'bumble-bee' },
+                        { name: 'Megatron', slug: 'megatron' }
+                    ],
+                }
+            }
+        });
+        var TransformersContent = Vue.component('transformers-content',{
+            template:'#transformersContent'
+        });
+    
+        var GameOfthrones= Vue.component('game-of-thrones',{
+            template:'#game-of-thrones',
+            data(){
+                return
+                {
+                    gameOfThrones : [
+                        {name:'John Snow'},
+                        {name:'Daenersys Targaryen'},
+                        {name:'Tyron'},
+                    ]
+                }
+            }
+        });
+        
+        var error404 = Vue.component('error404',{
+            template: '#error404'
+        });
+    
+        var router = new VueRouter({
+            mode:'hash',
+            routes : [
+                { path: '/' , name:'home', redirect: {name: 'transformersContent', params: {name:'megatron'}}  },
+                { path:'/transformers', name:'transformers', component: Transformers,
+                props:{ sidebar: true },
+                children:[
+                    { path: ':name', name:'transformersContent', component: TransformersContent }
+                ] },
+                { path:'/game-of-thrones',name:'gameOfthrones', component: GameOfthrones },
+                { path:'*',name:'error404', component: error404 }
+            ]
+    
+        });
+    
+        var app = new Vue({
+            el:"#app",
+            router,
+            
+            created(){
+              
+            //   this.$router.push({
+            //       name: 'transformersContent', params: {name: 'megatron'}
+            //   });
+              //ou bem mais fácil
+              //this.$router.push('transformers/megatron');
+              
+              //console.log(this.$route);
+            },
+            
+            data:{
+                titulo:"Rotas"
+            }
+        })
+    </script>
+    
+</body>
+</html>
